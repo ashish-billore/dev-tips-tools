@@ -1,0 +1,255 @@
+Search/Find:
+
+find . -name "name"
+grep -rnw '/path/to/somewhere/' -e "pattern"
+Ip addr flush dev <eno1>
+
+VIM Find/replace with confirmation:
+%s/find_what/replace_with/gc
+
+Find files recursively with some pattern in name: 
+
+find | grep <patter>
+
+Find files matching name pattern and grep content in them:
+find . -name "*ABC*" -exec grep -H 'XYZ' {} +
+
+find . -name "*ABC*" -exec grep -l 'XYZ' {} + -> only list
+
+----------------------------------------------------
+NFS:
+1. show exports on remote NFS server:
+
+showmount -e remote_nfs_server
+
+----------------------------
+
+Find replace on remote servers:
+
+crsh -c '_name=$(hostname); sed -i -e "s/vHost-/${_name}/" /etc/collectd.conf'
+
+crsh -c '_name=$(hostname); sed -i -e "s/eth0/\/^br\//" /etc/collectd.conf'
+crsh -c '_name=$(hostname); sed -i -e "s/eth0//^br//" /etc/collectd.conf'
+
+
+ Find files modified on specific time:      
+--------------------------
+find -type f -mtime -90 finds files that were modified in last 90 days.
+find -type f -mmin -90 finds files that were modified in last 90 min.
+
+------------------------
+ Interface "/^br/"
+ ----------------------
+ 
+
+
+------------------------------------------------------------------------------------------------------------
+Command history:
+
+history file location: 
+~/.bash_history
+or
+echo $HISTFILE
+
+
+history -c --> clear all history for current shell session
+
+history -d <int> --> clear history for the given offset
+
+set +o history --> temp history off from now on
+set -o history --> history on from now on
+
+------------------------------------------------------------------------------------------------------------
+To toggle Auto Indent and Comment in VIM
+
+:set paste!
+
+-----------------------------------------------
+
+Setting pip proxy:
+
+$ vim ~/.pip/pip.conf 
+[global]
+proxy = http://<ip>:<port>/
+cert = /mnt/sdb/work/cert/samsung.crt
+
+--------------------------------------------------------------------------------------------------------
+
+Cut the log files:
+
+> /var/log/nova/nova-api.log
+
+---------------------------------------------------------------------------------------------------
+
+Move / Copy multiple file:
+
+mv file1 file2 file3 -t DESTINATION
+
+cp file1 file2 file3 -t DESTINATION
+-----------------------------------------------------------------------
+
+VIM:  --> Find and replace
+
+
+:%s/foo/bar/gc 
+Change each 'foo' to 'bar', but ask for confirmation first.
+
+:%s/\<foo\>/bar/gc
+Change only whole words exactly matching 'foo' to 'bar'; ask for confirmation.
+
+:%s/foo/bar/gci
+
+Change each 'foo' (case insensitive due to the i flag) to 'bar'; ask for confirmation.
+
+:%s/foo\c/bar/gc is the same because \c makes the search case insensitive.
+
+This may be wanted after using :set noignorecase to make searches case sensitive (the default).
+
+:%s/foo/bar/gcI
+
+Change each 'foo' (case sensitive due to the I flag) to 'bar'; ask for confirmation.
+
+-------------------------------------------------------------------------
+Command to delete lines from a file without opening it:
+
+sed -i '<\line_no_start>,<\line_no_end>d' <\filename>
+Example:  To delete lines 4 to 6 from file 'sample.txt'.
+sed -i '4,6d' sample.txt
+
+Find / Replace:
+Using sed:
+sed -i 's/1/0/g' test.txt
+In general:
+sed -i 's/oldstring/newstring/g' filename
+
+Find lines containing a pattern and delete those:
+sed -i '/Pattern/ d' file.txt
+
+------------------------------------------------------------------------
+SCP of multiple file: 
+Where test and prod are server IP: root@10.xx.yy.zz
+scp -r prod:/path/foo /home/user/Desktop   # copy to local
+scp -r prod:/path/foo test:/tmp            # copy from remote prod to remote test
+
+------------------------------------------------------------------
+
+Yum Repo from .iso:
+
+• Mount the RHEL 7 installation ISO to a directory like /mnt, e.g.:
+ mount -o loop RHEL7.1.iso /mnt
+If you use DVD media , you can mount like below.
+ mount -o loop /dev/sr0  /mnt
+
+• Copy the media.repo file from the root of the mounted directory to /etc/yum.repos.d/ and set the permissions to something sane, e.g.:
+ cp /mnt/media.repo /etc/yum.repos.d/rhel7dvd.repo
+ chmod 644 /etc/yum.repos.d/rhel7dvd.repo
+
+• Edit the new repo file, changing the gpgcheck=0 setting to 1 and adding the following 3 lines
+enabled=1
+baseurl=file:///mnt/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+
+--------------------------------------------------------------------------------------
+Mounting repos from Controller to compute over NFS:
+
+export priv_ip="128.80.0.3"
+mount -t nfs ${priv_ip}:/mnt/localrepo /mnt/localrepo
+mount -t nfs ${priv_ip}:/mnt/<dir> /mnt/<dir>
+mount -t nfs ${priv_ip}:/media /media
+yum clean all
+
+-----------------------------------------------------------------------
+
+You can use pidstat to print cumulative io statistics per process every 20 seconds with this command:
+# pidstat -dl 20
+Each row will have follwing columns:
+• PID - process ID 
+• kB_rd/s - Number of kilobytes the task has caused to be read from disk per second. 
+• kB_wr/s - Number of kilobytes the task has caused, or shall cause to be written to disk per second.
+• kB_ccwr/s - Number  of kilobytes whose writing to disk has been cancelled by the task. This may occur when the task truncates some dirty pagecache. In this case, some IO which another task has been accounted for will not be happening.
+• Command - The command name of the task.
+
+--------------------------------------------------------------------------
+
+Input multiline text in a file without opening:
+
+# possibility 1:
+echo "line 1" >> greetings.txt
+echo "line 2" >> greetings.txt
+
+# possibility 2:
+echo "line 1
+line 2" >> greetings.txt
+
+# possibility 3: --> Works well with nested "" 
+cat <<EOT >> greetings.txt
+line 1
+line 2
+EOT    
+-------------------------------------------------------------------
+
+VIM block comment/uncomment:
+
+To comment out blocks in vim:• press Esc (to leave editing or other mode)
+• hit ctrl+v (visual block mode)
+• use the up/down arrow keys to select lines you want (it won't highlight everything - it's OK!)
+• Shift+i (capital I)
+• insert the text you want, i.e. '% '
+• press Esc
+Give it a second to work.
+
+
+To uncomment blocks in vim:• press Esc (to leave editing or other mode)
+• hit ctrl+v (visual block mode)
+• use the up/down arrow keys to select the lines to uncomment. 
+ If you want to select multiple characters, use one or combine these methods:  
+• use the left/right arrow keys to select more text
+• to select chunks of text use shift + left/right arrow key
+• you can repeatedly push the delete keys below, like a regular delete button
+• press d or x to delete characters, repeatedly if necessary
+• press Esc
+
+Give it a second to work. 
+    
+
+
+
+-------------------------------------------------------
+Find H/w vendor model of host:
+
+dmidecode | grep -A3 '^System Information'
+
+--------------------------------------------------------
+
+Hostname and details about the OS:
+
+hostnamectl
+----------------------------------------------------
+Moving process foreground and background:
+
+fg --> moves process to foreground
+
+ctrl+z --> suspends the process running in fg
+
+bg --> after ctrl+z --> moves process to bg
+
+when multiple processes, use fg / bg with job id (shown in [1] on ctrl+z)
+
+------------
+Getting and Setting File permissions for a specific user/flie:
+
+
+[root@server1 ~]# setfacl -m u:user2:x /home/user1
+[root@server1 ~]# setfacl -R -m u:user2:r-x /home/user1/OurProj
+
+[root@server1 ~]# getfacl /home/user1
+
+--------------------------------------------------
+Remove All IPs from an interface:
+
+ip addr flush dev eth0
+
+Removing a single IP from an interface:
+
+ip addr del <ip>/24 dev eth0
