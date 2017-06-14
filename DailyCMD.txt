@@ -1,3 +1,12 @@
+#########################################
+# Random Collection of Handy commands
+# Used almost daily.
+# All credit goes to original Authors
+# of Blogs/Stackoverflow/man-pages on
+# the net
+#
+#########################################
+
 Search/Find:
 
 find . -name "name"
@@ -34,11 +43,11 @@ crsh -c '_name=$(hostname); sed -i -e "s/eth0//^br//" /etc/collectd.conf'
 
  Find files modified on specific time:      
 --------------------------
-find -type f -mtime -90 finds files that were modified in last 90 days.
-find -type f -mmin -90 finds files that were modified in last 90 min.
+find -type f -mtime -10 finds files that were modified in last 10 days.
+find -type f -mmin -20 finds files that were modified in last 20 min.
 
 ------------------------
- Interface "/^br/"
+ CollectD grep for scpecific Interface "/^br/"
  ----------------------
  
 
@@ -83,9 +92,9 @@ Cut the log files:
 
 Move / Copy multiple file:
 
-mv file1 file2 file3 -t DESTINATION
+mv file1 file2 -t DESTINATION
 
-cp file1 file2 file3 -t DESTINATION
+cp file1 file2 -t DESTINATION
 -----------------------------------------------------------------------
 
 VIM:  --> Find and replace
@@ -113,23 +122,23 @@ Change each 'foo' (case sensitive due to the I flag) to 'bar'; ask for confirmat
 Command to delete lines from a file without opening it:
 
 sed -i '<\line_no_start>,<\line_no_end>d' <\filename>
-Example:  To delete lines 4 to 6 from file 'sample.txt'.
-sed -i '4,6d' sample.txt
+Example:  To delete lines 4 to 6 from file 'sample.sh'.
+sed -i '4,6d' sample.sh
 
 Find / Replace:
 Using sed:
-sed -i 's/1/0/g' test.txt
+sed -i 's/1/0/g' test.sh
 In general:
 sed -i 's/oldstring/newstring/g' filename
 
 Find lines containing a pattern and delete those:
-sed -i '/Pattern/ d' file.txt
+sed -i '/Pattern/ d' file.sh
 
 ------------------------------------------------------------------------
 SCP of multiple file: 
 Where test and prod are server IP: root@10.xx.yy.zz
-scp -r prod:/path/foo /home/user/Desktop   # copy to local
-scp -r prod:/path/foo test:/tmp            # copy from remote prod to remote test
+scp -r prod:/path/foo /home/my/Desktop   # copy to local
+scp -r prod:/path/foo test:/tmp          # copy from remote prod to remote test
 
 ------------------------------------------------------------------
 
@@ -191,16 +200,18 @@ EOT
 
 VIM block comment/uncomment:
 
-To comment out blocks in vim:• press Esc (to leave editing or other mode)
-• hit ctrl+v (visual block mode)
-• use the up/down arrow keys to select lines you want (it won't highlight everything - it's OK!)
-• Shift+i (capital I)
-• insert the text you want, i.e. '% '
-• press Esc
-Give it a second to work.
+To comment out blocks in vim:
+• press Esc (reset mode)
+• hit ctrl+v (visual block)
+• use the up/down arrow keys to select lines (won't highlight everything)
+• Shift+i
+• insert the text, i.e. '% ' or '# '
+• press Esc again
+After few sec delay, it works!.
 
 
-To uncomment blocks in vim:• press Esc (to leave editing or other mode)
+To uncomment blocks in vim:
+• press Esc (reset mode)
 • hit ctrl+v (visual block mode)
 • use the up/down arrow keys to select the lines to uncomment. 
  If you want to select multiple characters, use one or combine these methods:  
@@ -208,9 +219,9 @@ To uncomment blocks in vim:• press Esc (to leave editing or other mode)
 • to select chunks of text use shift + left/right arrow key
 • you can repeatedly push the delete keys below, like a regular delete button
 • press d or x to delete characters, repeatedly if necessary
-• press Esc
+• press Esc Again
 
-Give it a second to work. 
+After few sec delay, it works!. 
     
 
 
